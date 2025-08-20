@@ -1,0 +1,69 @@
+var Income = Income || {};
+Income.GA = (function () {
+	
+	var pushPageLoadDataLayer = function(data) {
+		var funnelStage = data.funnelStage;
+		var gtmType = data.gtmType;
+		var product = data.product;
+		var segment = data.segment;
+		var microSegment = data.microSegment;
+		var mindset = data.mindset;
+		var productCategory = data.productCategory;
+
+		if (funnelStage == "Select") {
+			funnelStage = "";
+		}
+		if (gtmType == "Select") {
+			gtmType = "";
+		}
+		if (product == "Select") {
+			product = "";
+		}
+		var base = {
+			'event': 'pageLoad'
+		};
+
+
+		if (funnelStage != "") {
+			base["funnelStage"] = funnelStage;
+		}
+		if (gtmType != "") {
+			var parser = new DOMParser;
+			var dom = parser.parseFromString(gtmType, 'text/html');
+			var decodeString = dom.body.textContent;
+			base["type"] = decodeString;
+		}
+		if (product != "") {
+			var parser = new DOMParser;
+			var dom = parser.parseFromString(product, 'text/html');
+			var decodeString = dom.body.textContent;
+			base["product"] = decodeString;
+		}
+
+		if (segment != "") {
+			base["segment"] = segment;
+		}
+
+		if (microSegment != "") {
+			base["microSegment"] = microSegment;
+		}
+
+		if (mindset!="") {
+			base["mindset"] = mindset;
+		}
+		
+		if (productCategory!="") {
+			base["productCategory"] = productCategory;
+		}
+
+		if (funnelStage == "" && gtmType == "" && product == "" && segment == "" && microSegment == "" && mindset == "" && productCategory == "") {
+			//nothing
+		} else {
+			dataLayer.push(base);
+		}
+	}
+	
+	return {
+		pushPageLoadDataLayer: pushPageLoadDataLayer
+	}
+})();
