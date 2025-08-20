@@ -1,0 +1,20 @@
+if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", function () {
+        GenerateStickCTAButton();
+    });
+} else {
+    GenerateStickCTAButton();
+}
+
+function GenerateStickCTAButton() {
+    if (homepageBannerSticky) {
+        let linkAttr = "";
+        if (homepageBannerSticky.CTALink.toLowerCase().search("income.com.sg") < 0) {
+            linkAttr = " target=\"_blank\" rel=\"noreferrer\"";
+        }
+        const stickyCTAHtmlString = "<a href = \"" + homepageBannerSticky.CTALink + "\"" + linkAttr + " title = \"" + homepageBannerSticky.CTAText + "\"><button class=\"btn primary evg-buy-homenav\" id=\"navbar-sticky-cta-btn\">" + homepageBannerSticky.CTAText + "</button></a>";
+        const stickyCTAHtmlDiv = document.createElement('div');
+        stickyCTAHtmlDiv.innerHTML = stickyCTAHtmlString;
+        document.querySelector(".nav-stick .nav-inner").appendChild(stickyCTAHtmlDiv);
+    }
+}
